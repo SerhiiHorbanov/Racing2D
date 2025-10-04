@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _AccelerationForce: 5
   _BrakeForce: 3
-  _SteeringTorque: 1
+  _SteeringTorque: 45
   _SpeedForSteering: 5
   _OrthogonalFriction: 5
   _ParallelFriction: 1
