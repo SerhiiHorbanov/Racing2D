@@ -72,10 +72,5 @@ public class RaceCar : MonoBehaviour
         _rigidbody.AddForce(braking, ForceMode2D.Force);
         
         _rigidbody.AddTorque(steering, ForceMode2D.Force);
-        
-        print($"dir = {dir}");
-        print($"Acceleration = {acceleration}");
-        print($"Brake = {braking}");
-        print($"Steering = {steering}");
     }
 }
