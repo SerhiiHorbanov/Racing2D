@@ -102,7 +102,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2478023939898293012}
         m_TargetAssemblyTypeName: Controlling.PlayerCarController, Assembly-CSharp
-        m_MethodName: OnAcceleration
+        m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -112,40 +112,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 0833d12c-9057-40ab-a527-26a32900435d
-    m_ActionName: 'Player/Acceleration[/Keyboard/w]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2478023939898293012}
-        m_TargetAssemblyTypeName: Controlling.PlayerCarController, Assembly-CSharp
-        m_MethodName: OnBrake
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 4784e1dc-078a-49f0-ad3e-ff3febbd6c3e
-    m_ActionName: 'Player/Brake[/Keyboard/s]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2478023939898293012}
-        m_TargetAssemblyTypeName: Controlling.PlayerCarController, Assembly-CSharp
-        m_MethodName: OnSteer
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: db42dbb0-5610-4d43-a93c-ac0ab3519826
-    m_ActionName: 'Player/Steer[/Keyboard/a,/Keyboard/d]'
+    m_ActionId: c2f84d1e-9839-4b7a-9816-89fc21080056
+    m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/DualShock4GamepadHID/leftStick]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -164,3 +132,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Car: {fileID: 0}
+  _currentAcceleration: 0
+  _currentBrake: 0
+  _currentSteering: 0

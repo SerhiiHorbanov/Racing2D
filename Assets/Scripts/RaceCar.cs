@@ -62,9 +62,9 @@ public class RaceCar : MonoBehaviour
         Vector2 braking = -dir * (_currentBrake * forces._BrakeForce);
         Vector2 acceleration = dir * (_currentAcceleration * forces._AccelerationForce);
 
-        float speedForward = Vector2.Dot(_rigidbody.linearVelocity, transform.up);
+        float speedForward = Vector2.Dot(_rigidbody.linearVelocity, dir);
         
-        float steering = _currentSteering * forces._SteeringTorque * Mathf.Deg2Rad * (speedForward / forces._SpeedForSteering);
+        float steering = -(_currentSteering) * forces._SteeringTorque * Mathf.Deg2Rad * (speedForward / forces._SpeedForSteering);
 
         ApplyFriction(forces);
         
