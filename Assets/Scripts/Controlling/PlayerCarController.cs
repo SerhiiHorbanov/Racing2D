@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,35 @@ namespace Controlling
 		private float _currentAcceleration;
 		private float _currentBrake;
 		private float _currentSteering;
+
+		private PlayerInput _playerInput;
+		
+		public void ConnectTo(PlayerInput input)
+		{
+			if (_playerInput is not null)
+			{
+				DisconnectFromPlayerInput();
+				Debug.LogWarning("Controller with already connected input is connecting to another one. That's not intended behaviour as of writing this warning");
+			}
+			
+			_playerInput = input;
+			InputAction moveAction = input.actions["Move"];
+			moveAction.performed += OnMove;
+			moveAction.canceled += OnMove;
+		}
+
+		private void OnDestroy()
+		{
+			DisconnectFromPlayerInput();
+		}
+
+		private void DisconnectFromPlayerInput()
+		{
+			if (_playerInput is null)
+				return;
+			
+			_playerInput.actions["Move"].performed -= OnMove;
+		}
 		
 		private void Update()
 		{
@@ -21,7 +51,7 @@ namespace Controlling
 			_Car.SetSteering(_currentSteering);
 		}
 
-		public void OnMove(InputAction.CallbackContext context)
+		private void OnMove(InputAction.CallbackContext context)
 		{
 			Vector2 value = context.ReadValue<Vector2>();
 			float l1 = value.magnitude;
@@ -48,13 +78,12 @@ namespace Controlling
 
 			float x4 = value.x * l3;
 			float y4 = value.y * l3;
-			Vector2 processedMove = new Vector2(x4, y4);
+			Vector2 processedMove = new(x4, y4);
 			
 			ApplyMoveVector(processedMove);
-			print(processedMove);
 		}
 
-		public void ApplyMoveVector(Vector2 value)
+		private void ApplyMoveVector(Vector2 value)
 		{
 			_currentSteering = value.x;
 			
