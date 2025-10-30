@@ -5,6 +5,6 @@ namespace Controlling
 {
 	public class RaceCarController : MonoBehaviour
 	{
-		[SerializeField] protected RaceCar _Car;
+		[SerializeField] public RaceCar _Car;
 	}
 }
