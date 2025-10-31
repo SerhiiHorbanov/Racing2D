@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RacerScore : MonoBehaviour
+public class RacerScore
 {
 	public int _Loops;
 }

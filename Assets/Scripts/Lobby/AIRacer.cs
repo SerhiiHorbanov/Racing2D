@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AIRacer : MonoBehaviour, IRacer
 {
-	private RacerScore _score;
+	private RacerScore _score = new();
 	
 	public RaceCar Car { get; set; }
 	

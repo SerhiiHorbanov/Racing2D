@@ -7,7 +7,7 @@ public class UserRacer : MonoBehaviour, IRacer
 {
 	[SerializeField] private GameObject _ControllerPrefab;
 	private PlayerInput _playerInput;
-	private RacerScore _score;
+	private RacerScore _score = new();
 	private PlayerCarController _carController;
 	
 	public RaceCar Car { get; set; }
@@ -15,7 +15,6 @@ public class UserRacer : MonoBehaviour, IRacer
 	private void Awake()
 	{
 		_playerInput = GetComponent<PlayerInput>();
-		_score = GetComponent<RacerScore>();
 		DontDestroyOnLoad(gameObject);
 	}
 
