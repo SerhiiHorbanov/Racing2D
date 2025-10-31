@@ -6,7 +6,6 @@ public class RaceLoop : MonoBehaviour
 {
 	[SerializeField] private List<Checkpoint> _Checkpoints;
 
-	private Checkpoint _firstCheckpoint;
 	private Dictionary<RaceCar, int> _reachedCheckpointForCar = new();
 	
 	private void Awake()
@@ -16,8 +15,6 @@ public class RaceLoop : MonoBehaviour
 			Debug.LogWarning("No checkpoints assigned");
 			return;
 		}
-		
-		_firstCheckpoint = _Checkpoints[0];
 
 		for (int i = 0; i < _Checkpoints.Count; i++)
 		{
@@ -25,8 +22,6 @@ public class RaceLoop : MonoBehaviour
 			checkpoint.Index = i;
 			checkpoint.OnCarEntered += OnCarEnteredCheckpoint;
 		}
-		
-		
 	}
 
 	private void OnDestroy()
