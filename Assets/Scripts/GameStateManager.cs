@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using Lobby;
 using UnityEngine;
 
-public class RaceInitializer : MonoBehaviour
+public class GameStateManager : MonoBehaviour
 {
 	[SerializeField] private GameObject _CarPrefab;
 	[SerializeField] private Transform _CarSpawnPoint;
@@ -14,8 +15,18 @@ public class RaceInitializer : MonoBehaviour
 			Debug.LogWarning("RacersList is not initialized");
 			return;
 		}
-		
-		foreach (IRacer racer in RacersList.Instance.Racers)
+
+		InitializeRacingState();
+	}
+
+	private void InitializeRacingState()
+	{
+		InitializeCarsForEachRacer(RacersList.Instance.Racers);
+	}
+
+	private void InitializeCarsForEachRacer(IEnumerable<IRacer> racers)
+	{
+		foreach (IRacer racer in racers)
 		{
 			RaceCar car = SpawnAndInitializeNextCar();
 			racer.SpawnController(car);
