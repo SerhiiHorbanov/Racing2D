@@ -33,7 +33,7 @@ namespace Controlling
 
 		private void DisconnectFromPlayerInput()
 		{
-			if (_playerInput is null)
+			if (_playerInput == null)
 				return;
 			
 			_playerInput.actions["Move"].performed -= OnMove;
