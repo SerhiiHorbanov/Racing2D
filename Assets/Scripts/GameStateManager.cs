@@ -3,7 +3,7 @@ using Lobby;
 using Unity.VisualScripting;
 using UnityEngine;
 
-enum GameState
+public enum GameState
 {
 	Racing,
 	ItemsChoosing,
@@ -15,12 +15,16 @@ enum GameState
 public class GameStateManager : MonoBehaviour
 {
 	[SerializeField] private GameObject _CarPrefab;
+	[SerializeField] private GameObject _RacerCursorPrefab;
 	[SerializeField] private Transform _CarSpawnPoint;
 	[SerializeField] private RaceLoop _RaceLoop;
 
 	private readonly Dictionary<RaceCar, IRacer> _carsToRacers = new();
+	private readonly Dictionary<IRacer, RacerCursor> _cursors = new();
+	
+	[SerializeField] private int _LoopsToEndRacingState = 3;
 
-	private const int LoopsToEndRacingState = 3;
+	public GameState _CurrentGameState = GameState.Racing;
 	
 	private void Awake()
 	{
@@ -30,13 +34,27 @@ public class GameStateManager : MonoBehaviour
 			return;
 		}
 
+		_RaceLoop.CarFinishedALoop += CarFinishedALoop;
 		InitializeRacingState();
+	}
+
+	private void Update()
+	{
+		
 	}
 	
 	private void ChangeStateFromRacingToPlacingItems()
 	{
 		UninitializeRacingState();
+		_CurrentGameState = GameState.ItemsPlacing;
 		InitializeItemsPlacingState();
+	}
+
+	private void ChangeStateFromPlacingItemsToRacing()
+	{
+		UninitializeItemsPlacingState();
+		_CurrentGameState = GameState.Racing;
+		InitializeRacingState();
 	}
 
 	private void InitializeRacingState()
@@ -51,9 +69,51 @@ public class GameStateManager : MonoBehaviour
 
 	private void InitializeItemsPlacingState()
 	{
-		
+		if (_cursors.Count == 0)
+		{
+			InitializeCursors();
+		}
+
+		foreach ((IRacer racer, RacerCursor cursor) in _cursors)
+		{
+			racer.ConnectRacerCursorControllerTo(cursor);
+			cursor._IsItemPlaced = false;
+			cursor.gameObject.SetActive(true);
+		}
 	}
-	
+		
+	private void InitializeCursors()
+	{
+		foreach (IRacer racer in RacersList.Instance.Racers)
+		{
+			GameObject cursorGameObject = Instantiate(_RacerCursorPrefab);
+			RacerCursor cursor = cursorGameObject.GetComponent<RacerCursor>();
+
+			_cursors.Add(racer, cursor);
+			cursor.OnItemPlaced += OnItemPlaced;
+		}
+	}
+
+	private void UninitializeItemsPlacingState()
+	{
+		foreach ((IRacer racer, RacerCursor cursor) in _cursors)
+		{
+			racer.DisconnectRacerCursorControllerFromCursor();
+			cursor.gameObject.SetActive(false);
+		}
+	}
+
+	private void OnItemPlaced()
+	{
+		foreach (RacerCursor cursor in _cursors.Values)
+		{
+			if (!cursor._IsItemPlaced)
+				return;
+		}
+		
+		ChangeStateFromPlacingItemsToRacing();
+	}
+
 	private void UninitializeCars(IEnumerable<IRacer> racers)
 	{
 		foreach (IRacer racer in racers)
@@ -79,18 +139,19 @@ public class GameStateManager : MonoBehaviour
 			_RaceLoop.AddCar(car);
 			_carsToRacers.Add(car, racer);
 		}
-
-		_RaceLoop.CarFinishedALoop += CarFinishedALoop;
 	}
 
 	private void CarFinishedALoop(RaceCar car)
 	{
-		IRacer racer = _carsToRacers[car];
+		if (!_carsToRacers.TryGetValue(car, out IRacer carsToRacer))
+			return;
+		
+		IRacer racer = carsToRacer;
 		RacerScore score = racer.GetScore();
 		score._Loops++;
 		print(score._Loops);
 
-		if (score._Loops >= LoopsToEndRacingState)
+		if (score._Loops >= _LoopsToEndRacingState)
 		{
 			ChangeStateFromRacingToPlacingItems();
 		}
