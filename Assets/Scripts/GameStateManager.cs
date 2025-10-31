@@ -29,7 +29,7 @@ public class GameStateManager : MonoBehaviour
 		foreach (IRacer racer in racers)
 		{
 			RaceCar car = SpawnAndInitializeNextCar();
-			racer.SpawnController(car);
+			racer.ConnectCarControllerTo(car);
 			racer.Car = car;
 
 			_RaceLoop.AddCar(car);

@@ -3,7 +3,11 @@ namespace Lobby
 	public interface IRacer
 	{
 		public RaceCar Car { get; set; }
-		public void SpawnController(RaceCar car);
+		
+		public void ConnectCarControllerTo(RaceCar car);
+
+		public void DisconnectCarControllerFromCar();
+		
 		public RacerScore GetScore();
 	}
 }
