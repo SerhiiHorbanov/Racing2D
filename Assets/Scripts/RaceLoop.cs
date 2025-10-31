@@ -38,8 +38,8 @@ public class RaceLoop : MonoBehaviour
 		if (!_reachedCheckpointForCar.TryGetValue(car, out int prevCheckpoint))
 			return;
 
-		bool shouldMoveToNextCheckpoint = prevCheckpoint == newCheckpoint - 1;
-		if (shouldMoveToNextCheckpoint)
+		bool shouldMoveToNewCheckpoint = Math.Abs(prevCheckpoint - newCheckpoint) == 1;
+		if (shouldMoveToNewCheckpoint)
 		{
 			_reachedCheckpointForCar[car] = newCheckpoint;
 			return;
