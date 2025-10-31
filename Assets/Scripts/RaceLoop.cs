@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Lobby;
 using UnityEngine;
 
 public class RaceLoop : MonoBehaviour
 {
+	public Action<RaceCar> CarFinishedALoop;
+	
 	[SerializeField] private List<Checkpoint> _Checkpoints;
 
 	private Dictionary<RaceCar, int> _reachedCheckpointForCar = new();
@@ -49,13 +52,8 @@ public class RaceLoop : MonoBehaviour
 		if (finishedALoop)
 		{
 			_reachedCheckpointForCar[car] = 0;
-			CarFinishedALoop(car);
+			CarFinishedALoop?.Invoke(car);
 		}
-	}
-
-	private void CarFinishedALoop(RaceCar car)
-	{
-		print($"car {car.gameObject.name} finished a loop");
 	}
 
 	public void AddCar(RaceCar car)
