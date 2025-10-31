@@ -120,3 +120,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ControllerPrefab: {fileID: 1014449526317450077, guid: be4fe1399d455f5438944a5d5f91efc9, type: 3}
+  _CursorControllerPrefab: {fileID: 8327100883610800444, guid: 65b857d9751f6ec4e99db39bf7f384be, type: 3}

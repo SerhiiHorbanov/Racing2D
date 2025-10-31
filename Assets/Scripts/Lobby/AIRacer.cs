@@ -22,6 +22,16 @@ public class AIRacer : MonoBehaviour, IRacer
 		
 	}
 
+	public void ConnectRacerCursorControllerTo(RacerCursor cursor)
+	{
+		
+	}
+
+	public void DisconnectRacerCursorControllerFromCursor()
+	{
+		
+	}
+
 	public RacerScore GetScore()
 		=> _score;
 }

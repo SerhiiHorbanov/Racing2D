@@ -7,6 +7,10 @@ namespace Lobby
 		public void ConnectCarControllerTo(RaceCar car);
 
 		public void DisconnectCarControllerFromCar();
+
+		public void ConnectRacerCursorControllerTo(RacerCursor cursor);
+		
+		public void DisconnectRacerCursorControllerFromCursor();
 		
 		public RacerScore GetScore();
 	}
