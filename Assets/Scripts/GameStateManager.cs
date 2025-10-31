@@ -2,6 +2,15 @@ using System.Collections.Generic;
 using Lobby;
 using UnityEngine;
 
+enum GameState
+{
+	Racing,
+	ItemsChoosing,
+	ItemsPlacing,
+	PointsDisplaying,
+	MatchEnding,
+}
+
 public class GameStateManager : MonoBehaviour
 {
 	[SerializeField] private GameObject _CarPrefab;
