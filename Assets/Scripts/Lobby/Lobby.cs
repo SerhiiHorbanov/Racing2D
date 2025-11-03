@@ -13,7 +13,7 @@ namespace Lobby
 		[SerializeField] private int _MaxPlayers;
 		[SerializeField] private GameObject _AIRacerPrefab;
 		
-		[SerializeField] private RacersList _Racers = new();
+		[SerializeField] private RacersList _Racers;
 
 		private PlayerInputManager _playerInputManager;
 
