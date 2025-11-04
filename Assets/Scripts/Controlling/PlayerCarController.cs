@@ -36,7 +36,9 @@ namespace Controlling
 			if (_playerInput == null)
 				return;
 			
-			_playerInput.actions["Move"].performed -= OnMove;
+			InputAction moveAction = _playerInput.actions["Move"];
+			moveAction.performed -= OnMove;
+			moveAction.canceled -= OnMove;
 		}
 		
 		private void Update()
