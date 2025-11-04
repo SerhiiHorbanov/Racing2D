@@ -24,6 +24,10 @@ namespace Controlling
 			InputAction moveAction = input.actions["Move"];
 			moveAction.performed += OnMove;
 			moveAction.canceled += OnMove;
+			
+			InputAction driftAction = _playerInput.actions["Drift"];
+			driftAction.performed += OnDrift;
+			driftAction.canceled += OnDrift;
 		}
 
 		private void OnDestroy()
@@ -39,6 +43,10 @@ namespace Controlling
 			InputAction moveAction = _playerInput.actions["Move"];
 			moveAction.performed -= OnMove;
 			moveAction.canceled -= OnMove;
+			
+			InputAction driftAction = _playerInput.actions["Drift"];
+			driftAction.performed -= OnDrift;
+			driftAction.canceled -= OnDrift;
 		}
 		
 		private void Update()
@@ -53,6 +61,12 @@ namespace Controlling
 			_Car.SetSteering(_currentSteering);
 		}
 
+		private void OnDrift(InputAction.CallbackContext context)
+		{
+			print(!context.canceled);
+			_Car.SetDrift(!context.canceled);
+		}
+		
 		private void OnMove(InputAction.CallbackContext context)
 		{
 			Vector2 value = context.ReadValue<Vector2>();

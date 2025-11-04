@@ -9,6 +9,7 @@ public class RaceCar : MonoBehaviour
     
     private const float SteeringThresholdForFriction = 0.01f;
 
+    private bool _isDrifting;
     private float _currentAcceleration;
     private float _currentBrake;
     private float _currentSteering;
@@ -18,6 +19,11 @@ public class RaceCar : MonoBehaviour
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+    }
+    
+    public void SetDrift(bool value)
+    {
+        _isDrifting = value;
     }
     
     public void SetAccelerationBrake(float value)
@@ -35,7 +41,9 @@ public class RaceCar : MonoBehaviour
     {
         float deltaTime = Time.fixedDeltaTime;
         
-        ApplyMovement(_DefaultDrivingForces);
+        DrivingForces currentDrivingForces = _isDrifting ? _DriftingDrivingForces : _DefaultDrivingForces;
+        
+        ApplyMovement(currentDrivingForces);
     }
 
     private void ApplyFriction(DrivingForces forces)
