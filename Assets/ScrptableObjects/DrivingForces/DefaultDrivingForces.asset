@@ -16,6 +16,7 @@ MonoBehaviour:
   _BrakeForce: 3
   _SteeringTorque: 15
   _SpeedForSteering: 5
-  _OrthogonalFriction: 5
+  _OrthogonalSpeedSteeringInfluence: 0
+  _OrthogonalFriction: 3
   _ParallelFriction: 1
   _AngularFriction: 4

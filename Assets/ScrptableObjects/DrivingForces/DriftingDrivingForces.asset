@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe3d43def0747c7b8f5d048d1040128, type: 3}
   m_Name: DriftingDrivingForces
   m_EditorClassIdentifier: 
-  _AccelerationForce: 1
+  _AccelerationForce: 3
   _BrakeForce: 1
-  _SteeringTorque: 30
+  _SteeringTorque: 15
   _SpeedForSteering: 5
+  _OrthogonalSpeedSteeringInfluence: 3
   _OrthogonalFriction: 0
   _ParallelFriction: 2
-  _AngularFriction: 15
+  _AngularFriction: 7
