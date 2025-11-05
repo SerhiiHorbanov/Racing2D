@@ -28,7 +28,7 @@ public class GameStateManager : MonoBehaviour
 	
 	private void Awake()
 	{
-		if (RacersList.Instance is null)
+		if (RacersList.Instance == null)
 		{
 			Debug.LogWarning("RacersList is not initialized");
 			return;

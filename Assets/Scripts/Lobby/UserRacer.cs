@@ -29,7 +29,7 @@ public class UserRacer : MonoBehaviour, IRacer
 
 	public void ConnectCarControllerTo(RaceCar car)
 	{
-		if (_carController is null)
+		if (_carController == null)
 			InitializeCarController();
 		
 		_carController._Car = car;

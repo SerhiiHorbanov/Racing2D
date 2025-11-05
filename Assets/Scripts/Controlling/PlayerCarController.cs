@@ -14,7 +14,7 @@ namespace Controlling
 		
 		public void ConnectTo(PlayerInput input)
 		{
-			if (_playerInput is not null)
+			if (_playerInput != null)
 			{
 				DisconnectFromPlayerInput();
 				Debug.LogWarning("Controller with already connected input is connecting to another one. That's not intended behaviour as of writing this warning");

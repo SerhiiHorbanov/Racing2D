@@ -10,7 +10,7 @@ public class RacersList : MonoBehaviour
 	
 	private void Awake()
 	{
-		if (Instance is not null)
+		if (Instance != null)
 		{
 			Destroy(gameObject);
 			return;

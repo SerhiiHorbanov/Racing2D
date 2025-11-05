@@ -11,13 +11,13 @@ namespace Controlling
 		
 		private void OnEnable()
 		{
-			if (_playerInput is not null)
+			if (_playerInput != null)
 				SubscribeToInputActions(_playerInput);
 		}
 
 		private void OnDisable()
 		{
-			if (_playerInput is not null)
+			if (_playerInput != null)
 				UnsubscribeFromInputActions(_playerInput);
 		}
 
