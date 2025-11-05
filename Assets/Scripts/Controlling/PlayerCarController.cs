@@ -63,7 +63,6 @@ namespace Controlling
 
 		private void OnDrift(InputAction.CallbackContext context)
 		{
-			print(!context.canceled);
 			_Car.SetDrift(!context.canceled);
 		}
 		

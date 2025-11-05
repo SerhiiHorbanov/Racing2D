@@ -149,7 +149,6 @@ public class GameStateManager : MonoBehaviour
 		IRacer racer = carsToRacer;
 		RacerScore score = racer.GetScore();
 		score._Loops++;
-		print(score._Loops);
 
 		if (score._Loops >= _LoopsToEndRacingState)
 		{

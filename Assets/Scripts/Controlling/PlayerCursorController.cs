@@ -78,7 +78,6 @@ namespace Controlling
 		private void OnMoveCursor(InputAction.CallbackContext context)
 		{
 			Vector2 delta = context.ReadValue<Vector2>();
-			print(delta);
 			_cursor?.Move(delta);
 		}
 	}
