@@ -4,9 +4,9 @@ namespace Lobby
 	{
 		public RaceCar Car { get; set; }
 		
-		public void ConnectCarControllerTo(RaceCar car);
+		public void EnableCarController(RaceCar car);
 
-		public void DisconnectCarControllerFromCar();
+		public void DisableCarController();
 
 		public void ConnectRacerCursorControllerTo(RacerCursor cursor);
 		

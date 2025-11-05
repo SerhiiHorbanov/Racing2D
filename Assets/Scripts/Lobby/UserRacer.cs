@@ -27,7 +27,7 @@ public class UserRacer : MonoBehaviour, IRacer
 		_carController.ConnectTo(_playerInput);
 	}
 
-	public void ConnectCarControllerTo(RaceCar car)
+	public void EnableCarController(RaceCar car)
 	{
 		if (_carController == null)
 			InitializeCarController();
@@ -36,7 +36,7 @@ public class UserRacer : MonoBehaviour, IRacer
 		_carController.enabled = true;
 	}
 
-	public void DisconnectCarControllerFromCar()
+	public void DisableCarController()
 	{
 		if (_carController is null)
 			return;

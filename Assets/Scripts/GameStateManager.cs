@@ -118,7 +118,7 @@ public class GameStateManager : MonoBehaviour
 	{
 		foreach (IRacer racer in racers)
 		{
-			racer.DisconnectCarControllerFromCar();
+			racer.DisableCarController();
 		}
 		foreach (RaceCar car in _carsToRacers.Keys)
 		{
@@ -133,7 +133,7 @@ public class GameStateManager : MonoBehaviour
 		foreach (IRacer racer in racers)
 		{
 			RaceCar car = SpawnAndInitializeNextCarForRacer(racer);
-			racer.ConnectCarControllerTo(car);
+			racer.EnableCarController(car);
 			racer.Car = car;
 
 			_RaceLoop.AddCar(car);

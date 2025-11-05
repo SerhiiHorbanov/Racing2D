@@ -21,7 +21,15 @@ namespace Controlling
 			}
 			
 			_playerInput = input;
-			InputAction moveAction = input.actions["Move"];
+			SubscribeToInput();
+		}
+		
+		private void SubscribeToInput()
+		{
+			if (_playerInput == null)
+				return;
+			
+			InputAction moveAction = _playerInput.actions["Move"];
 			moveAction.performed += OnMove;
 			moveAction.canceled += OnMove;
 			
@@ -30,16 +38,13 @@ namespace Controlling
 			driftAction.canceled += OnDrift;
 		}
 
-		private void OnDestroy()
+		public void DisconnectFromPlayerInput()
 		{
-			DisconnectFromPlayerInput();
+			UnsubscribeFromInput();
 		}
-
-		private void DisconnectFromPlayerInput()
+		
+		private void UnsubscribeFromInput()
 		{
-			if (_playerInput == null)
-				return;
-			
 			InputAction moveAction = _playerInput.actions["Move"];
 			moveAction.performed -= OnMove;
 			moveAction.canceled -= OnMove;
@@ -49,6 +54,19 @@ namespace Controlling
 			driftAction.canceled -= OnDrift;
 		}
 		
+		private void OnDestroy()
+		{
+			DisconnectFromPlayerInput();
+		}
+		private void OnDisable()
+		{
+			UnsubscribeFromInput();
+		}
+
+		private void OnEnable()
+		{
+			SubscribeToInput();
+		}
 		private void Update()
 		{
 			if (_Car is null)

@@ -12,12 +12,12 @@ public class AIRacer : MonoBehaviour, IRacer
 		DontDestroyOnLoad(gameObject);
 	}
 
-	public void ConnectCarControllerTo(RaceCar car)
+	public void EnableCarController(RaceCar car)
 	{
 		
 	}
 
-	public void DisconnectCarControllerFromCar()
+	public void DisableCarController()
 	{
 		
 	}
