@@ -57,11 +57,11 @@ public class RaceCar : MonoBehaviour
         _rigidbody.AddForce(-sideVelocity * forces._OrthogonalFriction, ForceMode2D.Force);
         _rigidbody.AddForce(-forwardVelocity * forces._ParallelFriction, ForceMode2D.Force);
         
-        if (_currentSteering > SteeringThresholdForFriction)
+        if (Mathf.Abs(_currentSteering) > SteeringThresholdForFriction)
             return;
-        
-        _rigidbody.AddTorque(Mathf.Sign(_rigidbody.angularVelocity) * -forces._AngularFriction * Mathf.Deg2Rad, ForceMode2D.Force);
-        
+
+        float angularFriction = Mathf.Sign(_rigidbody.angularVelocity) * -forces._AngularFriction * Mathf.Deg2Rad;
+        _rigidbody.AddTorque(angularFriction, ForceMode2D.Force);
     }
     
     private void ApplyMovement(DrivingForces forces)
