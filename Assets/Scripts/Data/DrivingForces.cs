@@ -10,6 +10,7 @@ namespace Data
     
 		[SerializeField] public float _SteeringTorque;
 		[SerializeField] public float _SpeedForSteering;
+		[SerializeField] public float _OrthogonalSpeedSteeringInfluence;
     
 		[Space]
 		[SerializeField] public float _OrthogonalFriction;
