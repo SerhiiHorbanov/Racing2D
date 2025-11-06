@@ -1,4 +1,5 @@
 using Controlling;
+using Data;
 using Lobby;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,7 +14,8 @@ public class UserRacer : MonoBehaviour, IRacer
 	private PlayerCursorController _cursorController;
 	
 	public RaceCar Car { get; set; }
-	
+	public RacerConfiguration Configuration { get; set; }
+
 	private void Awake()
 	{
 		_playerInput = GetComponent<PlayerInput>();

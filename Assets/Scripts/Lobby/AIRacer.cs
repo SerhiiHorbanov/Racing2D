@@ -1,3 +1,4 @@
+using Data;
 using Lobby;
 using UnityEngine;
 
@@ -6,7 +7,8 @@ public class AIRacer : MonoBehaviour, IRacer
 	private RacerScore _score = new();
 	
 	public RaceCar Car { get; set; }
-	
+	public RacerConfiguration Configuration { get; set; }
+
 	private void Awake()
 	{
 		DontDestroyOnLoad(gameObject);
