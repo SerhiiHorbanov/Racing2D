@@ -23,6 +23,6 @@ public class RacersList : MonoBehaviour
 	public void Add(IRacer racer)
 		=> Racers.Add(racer);
 	
-	public void Remove(IRacer racer)
+	public bool Remove(IRacer racer)
 		=> Racers.Remove(racer);
 }
