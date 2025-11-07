@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,13 +13,13 @@ namespace Lobby
 		[SerializeField] private GameObject _AIRacerPrefab;
 		
 		[SerializeField] private RacersList _Racers;
-
+		
 		private PlayerInputManager _playerInputManager;
 
 		[SerializeField] private string _GameScene;
-
-		private int _aiRacers;
-		private int _playerRacers;
+		
+		public Action<IRacer> OnRacerAdded;
+		public Action<IRacer> OnRacerRemoved;
 		
 		private void Awake()
 		{
@@ -32,46 +31,63 @@ namespace Lobby
 			SceneManager.LoadScene(_GameScene);
 		}
 
+		private void InvokeOnRacerAdded(IRacer racer)
+		{
+			UpdatePlayersLimit();
+			OnRacerAdded?.Invoke(racer);
+		}
+
+		private void InvokeOnRacerRemoved(IRacer racer)
+		{
+			UpdatePlayersLimit();
+			OnRacerRemoved?.Invoke(racer);
+		}
+		
 		public void OnPlayerJoined(PlayerInput input)
 		{
-			_Racers.Add(input.GetComponent<IRacer>());
-			_playerRacers++;
-			UpdatePlayersLimit();
+			IRacer racer = input.GetComponent<IRacer>();
+			_Racers.Add(racer);
+			
+			InvokeOnRacerAdded(racer);
 		}
 		
 		public void OnPlayerLeft(PlayerInput input)
 		{
-			_Racers.Remove(input.GetComponent<IRacer>());
-			_playerRacers--;
-			UpdatePlayersLimit();
+			IRacer racer = input.GetComponent<IRacer>();
+			if (_Racers.Remove(racer));
+			
+			InvokeOnRacerRemoved(racer);
 		}
 		
 		public void AddAIRacer()
 		{
-			if (_MaxRacers <= _aiRacers + _playerRacers)
+			if (_Racers.Racers.Count >= _MaxRacers)
 			{
 				Debug.LogWarning("Not adding AI racer because racers limit reached");
 				return;
 			}
 			
 			GameObject o = Instantiate(_AIRacerPrefab);
-			_Racers.Add(o.GetComponent<IRacer>());
-			_aiRacers++;
-			UpdatePlayersLimit();
+			IRacer racer = o.GetComponent<IRacer>();
+			_Racers.Add(racer);
+			InvokeOnRacerAdded(racer);
 		}
 
-		public void RemoveAIRacer(AIRacer racer)
+		public void RemoveRacer(IRacer racer)
 		{
-			if (_Racers.Remove(racer));
-			{
-				_aiRacers--;
-				UpdatePlayersLimit();
-			}
+			if (!_Racers.Remove(racer))
+				return;
+			
+			MonoBehaviour component = racer as MonoBehaviour;
+			Destroy(component?.gameObject);
+			
+			UpdatePlayersLimit();
+			InvokeOnRacerRemoved(racer);
 		}
 
 		private void UpdatePlayersLimit()
 		{
-			if (_MaxRacers <= _aiRacers + _playerRacers)
+			if (_Racers.Racers.Count >= _MaxRacers)
 			{
 				_playerInputManager.DisableJoining();
 			}
@@ -83,16 +99,13 @@ namespace Lobby
 
 		public void RemoveAllRacers()
 		{
-			_aiRacers = 0;
-			_playerRacers = 0;
 			UpdatePlayersLimit();
 			for (int i = 0; i < 100; i++)
 			{
 				if (_Racers.Racers.Count == 0)
 					return;
 				
-				MonoBehaviour component = _Racers.Racers[0] as MonoBehaviour;
-				Destroy(component?.gameObject);
+				RemoveRacer(_Racers.Racers[0]);
 			}
 
 			Debug.LogError("Failed to remove all racers");
