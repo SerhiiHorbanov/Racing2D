@@ -1,3 +1,4 @@
+using System;
 using Data;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ public class RaceCar : MonoBehaviour
     private float _currentSteering;
     
     private Rigidbody2D _rigidbody;
+
+    public Action<float> OnDriftedDistance;
     
     private void Start()
     {
@@ -44,6 +47,9 @@ public class RaceCar : MonoBehaviour
         DrivingForces currentDrivingForces = _isDrifting ? _DriftingDrivingForces : _DefaultDrivingForces;
         
         ApplyMovement(currentDrivingForces);
+        
+        if (_isDrifting)
+            OnDriftedDistance?.Invoke(_rigidbody.linearVelocity.magnitude * deltaTime);
     }
 
     private void ApplyFriction(DrivingForces forces)

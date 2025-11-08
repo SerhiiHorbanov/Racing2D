@@ -116,12 +116,10 @@ public class GameStateManager : MonoBehaviour
 
 	private void UninitializeCars(IEnumerable<IRacer> racers)
 	{
-		foreach (IRacer racer in racers)
+		foreach ((RaceCar car, IRacer racer) in _carsToRacers)
 		{
 			racer.DisableCarController();
-		}
-		foreach (RaceCar car in _carsToRacers.Keys)
-		{
+			racer.DisconnectScoreFromCar();
 			Destroy(car.gameObject);
 		}
 		
@@ -133,8 +131,9 @@ public class GameStateManager : MonoBehaviour
 		foreach (IRacer racer in racers)
 		{
 			RaceCar car = SpawnAndInitializeNextCarForRacer(racer);
-			racer.EnableCarController(car);
 			racer.Car = car;
+			racer.EnableCarController(car);
+			racer.ConnectScoreToCar();
 
 			_RaceLoop.AddCar(car);
 			_carsToRacers.Add(car, racer);
@@ -148,9 +147,9 @@ public class GameStateManager : MonoBehaviour
 		
 		IRacer racer = carsToRacer;
 		RacerScore score = racer.GetScore();
-		score._Loops++;
+		score.AddLoop();
 
-		if (score._Loops >= _LoopsToEndRacingState)
+		if (score.Loops >= _LoopsToEndRacingState)
 		{
 			ChangeStateFromRacingToPlacingItems();
 		}

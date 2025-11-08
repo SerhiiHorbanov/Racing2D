@@ -6,6 +6,18 @@ namespace Lobby
 	{
 		public RaceCar Car { get; set; }
 		public RacerConfiguration Configuration { get; set; }
+
+		public void ConnectScoreToCar()
+		{
+			RacerScore score = GetScore();
+			Car.OnDriftedDistance += score.AddDrifting;
+		}
+
+		public void DisconnectScoreFromCar()
+		{
+			RacerScore score = GetScore();
+			Car.OnDriftedDistance -= score.AddDrifting;
+		}
 		
 		public void EnableCarController(RaceCar car);
 
