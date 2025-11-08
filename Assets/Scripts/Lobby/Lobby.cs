@@ -54,9 +54,8 @@ namespace Lobby
 		public void OnPlayerLeft(PlayerInput input)
 		{
 			IRacer racer = input.GetComponent<IRacer>();
-			if (_Racers.Remove(racer));
-			
-			InvokeOnRacerRemoved(racer);
+			if (_Racers.Remove(racer))
+				InvokeOnRacerRemoved(racer);
 		}
 		
 		public void AddAIRacer()
