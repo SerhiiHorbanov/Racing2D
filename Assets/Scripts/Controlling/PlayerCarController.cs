@@ -45,6 +45,9 @@ namespace Controlling
 		
 		private void UnsubscribeFromInput()
 		{
+			if (_playerInput == null)
+				return;
+			
 			InputAction moveAction = _playerInput.actions["Move"];
 			moveAction.performed -= OnMove;
 			moveAction.canceled -= OnMove;
