@@ -6,26 +6,26 @@ public class Checkpoint : MonoBehaviour
 {
     [NonSerialized] public int Index;
     
-    public Action<RaceCar, int> OnCarEntered;
-    public Action<RaceCar, int> OnCarExited;
+    public Action<CheckpointProgressTracker, int> OnTrackerEntered;
+    public Action<CheckpointProgressTracker, int> OnTrackerExited;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        RaceCar car = other.GetComponent<RaceCar>();
+        CheckpointProgressTracker tracker = other.GetComponent<CheckpointProgressTracker>();
         
-        if (car is null)
+        if (tracker is null)
             return;
         
-        OnCarEntered?.Invoke(car, Index);
+        OnTrackerEntered?.Invoke(tracker, Index);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        RaceCar car = other.GetComponent<RaceCar>();
+        CheckpointProgressTracker tracker = other.GetComponent<CheckpointProgressTracker>();
         
-        if (car is null)
+        if (tracker is null)
             return;
         
-        OnCarExited?.Invoke(car, Index);
+        OnTrackerExited?.Invoke(tracker, Index);
     }
 }

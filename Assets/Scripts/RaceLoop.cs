@@ -5,11 +5,7 @@ using UnityEngine;
 
 public class RaceLoop : MonoBehaviour
 {
-	public Action<RaceCar> CarFinishedALoop;
-	
 	[SerializeField] private List<Checkpoint> _Checkpoints;
-
-	private Dictionary<RaceCar, int> _reachedCheckpointForCar = new();
 	
 	private void Awake()
 	{
@@ -23,7 +19,7 @@ public class RaceLoop : MonoBehaviour
 		{
 			Checkpoint checkpoint = _Checkpoints[i];
 			checkpoint.Index = i;
-			checkpoint.OnCarEntered += OnCarEnteredCheckpoint;
+			checkpoint.OnTrackerEntered += OnTrackerReachedCheckpoint;
 		}
 	}
 
@@ -32,32 +28,26 @@ public class RaceLoop : MonoBehaviour
 		for (int i = 0; i < _Checkpoints.Count; i++)
 		{
 			Checkpoint checkpoint = _Checkpoints[i];
-			checkpoint.OnCarEntered -= OnCarEnteredCheckpoint;
+			checkpoint.OnTrackerEntered -= OnTrackerReachedCheckpoint;
 		}
 	}
 
-	private void OnCarEnteredCheckpoint(RaceCar car, int newCheckpoint)
+	private void OnTrackerReachedCheckpoint(CheckpointProgressTracker tracker, int reachedCheckpoint)
 	{
-		if (!_reachedCheckpointForCar.TryGetValue(car, out int prevCheckpoint))
-			return;
-
-		bool shouldMoveToNewCheckpoint = Math.Abs(prevCheckpoint - newCheckpoint) == 1;
+		int prevCheckpoint = tracker._CurrentCheckpoint;
+		bool shouldMoveToNewCheckpoint = Math.Abs(prevCheckpoint - reachedCheckpoint) == 1;
+		
 		if (shouldMoveToNewCheckpoint)
 		{
-			_reachedCheckpointForCar[car] = newCheckpoint;
+			tracker._CurrentCheckpoint = reachedCheckpoint;
 			return;
 		}
 		
-		bool finishedALoop = prevCheckpoint == _Checkpoints.Count - 1 & newCheckpoint == 0;
+		bool finishedALoop = prevCheckpoint == _Checkpoints.Count - 1 & reachedCheckpoint == 0;
 		if (finishedALoop)
 		{
-			_reachedCheckpointForCar[car] = 0;
-			CarFinishedALoop?.Invoke(car);
+			tracker._CurrentCheckpoint = 0;
+			tracker.InvokeOnFinishedALoop();
 		}
-	}
-
-	public void AddCar(RaceCar car)
-	{
-		_reachedCheckpointForCar.Add(car, 0);
 	}
 }

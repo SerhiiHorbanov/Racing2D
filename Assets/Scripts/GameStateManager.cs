@@ -33,8 +33,7 @@ public class GameStateManager : MonoBehaviour
 			Debug.LogWarning("RacersList is not initialized");
 			return;
 		}
-
-		_RaceLoop.CarFinishedALoop += CarFinishedALoop;
+		
 		InitializeRacingState();
 	}
 
@@ -64,7 +63,7 @@ public class GameStateManager : MonoBehaviour
 
 	private void UninitializeRacingState()
 	{
-		UninitializeCars(RacersList.Instance.Racers);
+		UninitializeCars();
 	}
 
 	private void InitializeItemsPlacingState()
@@ -114,7 +113,7 @@ public class GameStateManager : MonoBehaviour
 		ChangeStateFromPlacingItemsToRacing();
 	}
 
-	private void UninitializeCars(IEnumerable<IRacer> racers)
+	private void UninitializeCars()
 	{
 		foreach ((RaceCar car, IRacer racer) in _carsToRacers)
 		{
@@ -130,18 +129,32 @@ public class GameStateManager : MonoBehaviour
 	{
 		foreach (IRacer racer in racers)
 		{
-			RaceCar car = SpawnAndInitializeNextCarForRacer(racer);
+			GameObject carGameObject = Instantiate(_CarPrefab);
+			RaceCar car = carGameObject.GetComponent<RaceCar>();
+		
+			carGameObject.transform.position = _CarSpawnPoint.position;
+					
 			racer.Car = car;
 			racer.EnableCarController(car);
 			racer.ConnectScoreToCar();
 
-			_RaceLoop.AddCar(car);
+			CheckpointProgressTracker tracker = carGameObject.GetComponent<CheckpointProgressTracker>();
+			tracker.OnFinishedALoop += CarFinishedALoop;
+			
 			_carsToRacers.Add(car, racer);
 		}
 	}
 
-	private void CarFinishedALoop(RaceCar car)
+	private void CarFinishedALoop(CheckpointProgressTracker tracker)
 	{
+		RaceCar car = tracker.GetComponent<RaceCar>();
+		
+		if (car is null)
+		{
+			Debug.LogWarning("CarFinishedALoop called on a non-car object");
+			return;
+		}
+		
 		if (!_carsToRacers.TryGetValue(car, out IRacer carsToRacer))
 			return;
 		
@@ -151,17 +164,8 @@ public class GameStateManager : MonoBehaviour
 
 		if (score.Loops >= _LoopsToEndRacingState)
 		{
+			score.AddWin();
 			ChangeStateFromRacingToPlacingItems();
 		}
-	}
-
-	private RaceCar SpawnAndInitializeNextCarForRacer(IRacer racer)
-	{
-		GameObject carGameObject = Instantiate(_CarPrefab);
-		RaceCar car = carGameObject.GetComponent<RaceCar>();
-		
-		carGameObject.transform.position = _CarSpawnPoint.position;
-		
-		return car;
 	}
 }

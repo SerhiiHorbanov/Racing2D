@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 3450526314632441060}
   - component: {fileID: 999347400852452090}
   - component: {fileID: 2992240044406010223}
+  - component: {fileID: 1064371968177187182}
   m_Layer: 0
   m_Name: Race Car
   m_TagString: Untagged
@@ -210,6 +211,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _DefaultDrivingForces: {fileID: 11400000, guid: 59f2477aad43b8f40973b1b8ce7a00d2, type: 2}
   _DriftingDrivingForces: {fileID: 11400000, guid: 0cce399d93218fa4db3c03961847f87e, type: 2}
+--- !u!114 &1064371968177187182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4453856188272795003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28ecf2c77f148748b471b48127e7425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CurrentCheckpoint: 0
 --- !u!1 &9191041175633878185
 GameObject:
   m_ObjectHideFlags: 0
