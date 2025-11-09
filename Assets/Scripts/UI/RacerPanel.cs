@@ -9,10 +9,14 @@ namespace UI
         public IRacer Racer;
 
         public Action<IRacer> RemoveRacer;
+    
+        [SerializeField] private GameObject _AiText;
         
         public void SetRacer(IRacer racer)
         {
             Racer = racer;
+            
+            _AiText.SetActive(racer is AIRacer);
         }
 
         public void InvokeRemoveRacer()
