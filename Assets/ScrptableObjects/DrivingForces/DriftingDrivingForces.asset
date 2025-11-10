@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: DriftingDrivingForces
   m_EditorClassIdentifier: 
   _AccelerationForce: 3
-  _BrakeForce: 1
+  _BrakeForce: 3
   _SteeringTorque: 15
   _SpeedForSteering: 5
-  _OrthogonalSpeedSteeringInfluence: 3
+  _OrthogonalSpeedSteeringInfluence: 1
   _OrthogonalFriction: 0
   _ParallelFriction: 2
   _AngularFriction: 7
