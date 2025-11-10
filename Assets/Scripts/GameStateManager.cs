@@ -155,14 +155,13 @@ public class GameStateManager : MonoBehaviour
 			return;
 		}
 		
-		if (!_carsToRacers.TryGetValue(car, out IRacer carsToRacer))
+		if (!_carsToRacers.TryGetValue(car, out IRacer racer))
 			return;
-		
-		IRacer racer = carsToRacer;
+
 		RacerScore score = racer.GetScore();
 		score.AddLoop();
 
-		if (score.Loops >= _LoopsToEndRacingState)
+		if (tracker._LoopsDone >= _LoopsToEndRacingState)
 		{
 			score.AddWin();
 			ChangeStateFromRacingToPlacingItems();
