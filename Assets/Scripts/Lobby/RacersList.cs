@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RacersList : MonoBehaviour
 {
-	public List<IRacer> Racers = new();
+	public List<Racer> Racers = new();
 	public static RacersList Instance;
 	
 	private void Awake()
@@ -20,9 +20,9 @@ public class RacersList : MonoBehaviour
 		Instance = this;
 	}
 
-	public void Add(IRacer racer)
+	public void Add(Racer racer)
 		=> Racers.Add(racer);
 	
-	public bool Remove(IRacer racer)
+	public bool Remove(Racer racer)
 		=> Racers.Remove(racer);
 }

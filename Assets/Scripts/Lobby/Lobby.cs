@@ -18,8 +18,8 @@ namespace Lobby
 
 		[SerializeField] private string _GameScene;
 		
-		public Action<IRacer> OnRacerAdded;
-		public Action<IRacer> OnRacerRemoved;
+		public Action<Racer> OnRacerAdded;
+		public Action<Racer> OnRacerRemoved;
 		
 		private void Awake()
 		{
@@ -31,13 +31,13 @@ namespace Lobby
 			SceneManager.LoadScene(_GameScene);
 		}
 
-		private void InvokeOnRacerAdded(IRacer racer)
+		private void InvokeOnRacerAdded(Racer racer)
 		{
 			UpdatePlayersLimit();
 			OnRacerAdded?.Invoke(racer);
 		}
 
-		private void InvokeOnRacerRemoved(IRacer racer)
+		private void InvokeOnRacerRemoved(Racer racer)
 		{
 			UpdatePlayersLimit();
 			OnRacerRemoved?.Invoke(racer);
@@ -45,7 +45,7 @@ namespace Lobby
 		
 		public void OnPlayerJoined(PlayerInput input)
 		{
-			IRacer racer = input.GetComponent<IRacer>();
+			Racer racer = input.GetComponent<Racer>();
 			_Racers.Add(racer);
 			
 			InvokeOnRacerAdded(racer);
@@ -53,7 +53,7 @@ namespace Lobby
 		
 		public void OnPlayerLeft(PlayerInput input)
 		{
-			IRacer racer = input.GetComponent<IRacer>();
+			Racer racer = input.GetComponent<Racer>();
 			if (_Racers.Remove(racer))
 				InvokeOnRacerRemoved(racer);
 		}
@@ -67,12 +67,12 @@ namespace Lobby
 			}
 			
 			GameObject o = Instantiate(_AIRacerPrefab);
-			IRacer racer = o.GetComponent<IRacer>();
+			Racer racer = o.GetComponent<Racer>();
 			_Racers.Add(racer);
 			InvokeOnRacerAdded(racer);
 		}
 
-		public void RemoveRacer(IRacer racer)
+		public void RemoveRacer(Racer racer)
 		{
 			if (!_Racers.Remove(racer))
 				return;

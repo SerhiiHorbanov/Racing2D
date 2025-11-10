@@ -6,13 +6,13 @@ namespace UI
 {
     public class RacerPanel : MonoBehaviour
     {
-        public IRacer Racer;
+        public Racer Racer;
 
-        public Action<IRacer> RemoveRacer;
+        public Action<Racer> RemoveRacer;
     
         [SerializeField] private GameObject _AiText;
         
-        public void SetRacer(IRacer racer)
+        public void SetRacer(Racer racer)
         {
             Racer = racer;
             

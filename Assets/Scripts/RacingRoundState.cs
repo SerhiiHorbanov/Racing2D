@@ -12,7 +12,7 @@ public class RacingRoundState : MonoBehaviour
 	[SerializeField] private Transform _CarSpawnPoint;
 	[SerializeField] private RaceLoop _RaceLoop;
 	
-	private readonly Dictionary<RaceCar, IRacer> _carsToRacers = new();
+	private readonly Dictionary<RaceCar, Racer> _carsToRacers = new();
 
 	public Action OnStateEnd;
 	
@@ -26,9 +26,9 @@ public class RacingRoundState : MonoBehaviour
 		UninitializeCars();
 	}
 
-	private void InitializeCars(IEnumerable<IRacer> racers)
+	private void InitializeCars(IEnumerable<Racer> racers)
 	{
-		foreach (IRacer racer in racers)
+		foreach (Racer racer in racers)
 		{
 			GameObject carGameObject = Instantiate(_CarPrefab);
 			RaceCar car = carGameObject.GetComponent<RaceCar>();
@@ -48,7 +48,7 @@ public class RacingRoundState : MonoBehaviour
 	
 	private void UninitializeCars()
 	{
-		foreach ((RaceCar car, IRacer racer) in _carsToRacers)
+		foreach ((RaceCar car, Racer racer) in _carsToRacers)
 		{
 			racer.DisableCarController();
 			racer.DisconnectScoreFromCar();
@@ -68,15 +68,14 @@ public class RacingRoundState : MonoBehaviour
 			return;
 		}
 		
-		if (!_carsToRacers.TryGetValue(car, out IRacer racer))
+		if (!_carsToRacers.TryGetValue(car, out Racer racer))
 			return;
 
-		RacerScore score = racer.GetScore();
-		score.AddLoop();
+		racer.Score.AddLoop();
 
 		if (tracker._LoopsDone >= _LoopsToEndRacingState)
 		{
-			score.AddWin();
+			racer.Score.AddWin();
 			OnStateEnd?.Invoke();
 		}
 	}

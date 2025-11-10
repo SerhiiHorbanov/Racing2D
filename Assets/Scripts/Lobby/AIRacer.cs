@@ -2,38 +2,25 @@ using Data;
 using Lobby;
 using UnityEngine;
 
-public class AIRacer : MonoBehaviour, IRacer
+public class AIRacer : Racer
 {
-	private RacerScore _score = new();
-	
-	public RaceCar Car { get; set; }
-	public RacerConfiguration Configuration { get; set; }
-
-	private void Awake()
-	{
-		DontDestroyOnLoad(gameObject);
-	}
-
-	public void EnableCarController(RaceCar car)
+	public override void EnableCarController(RaceCar car)
 	{
 		
 	}
 
-	public void DisableCarController()
+	public override void DisableCarController()
 	{
 		
 	}
 
-	public void ConnectRacerCursorControllerTo(RacerCursor cursor)
+	public override void ConnectRacerCursorControllerTo(RacerCursor cursor)
 	{
 		
 	}
 
-	public void DisconnectRacerCursorControllerFromCursor()
+	public override void DisconnectRacerCursorControllerFromCursor()
 	{
 		
 	}
-
-	public RacerScore GetScore()
-		=> _score;
 }

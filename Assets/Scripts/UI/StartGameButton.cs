@@ -34,7 +34,7 @@ namespace UI
 			}
 		}
 		
-		private void UpdateInteractability(IRacer _)
+		private void UpdateInteractability(Racer _)
 		{
 			_button.interactable = _racers.Racers.Count > 0;
 		}

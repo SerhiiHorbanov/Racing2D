@@ -11,7 +11,7 @@ namespace UI
 		[FormerlySerializedAs("lobby")] [SerializeField] private Lobby.Lobby _Lobby;
 		[FormerlySerializedAs("racerPanelPrefab")] [SerializeField] private GameObject _RacerPanelPrefab;
 		[SerializeField] private Transform _JoiningActionText;
-		private Dictionary<IRacer, RacerPanel> _panels;  
+		private Dictionary<Racer, RacerPanel> _panels;  
 		
 		private void Awake()
 		{
@@ -36,7 +36,7 @@ namespace UI
 			_Lobby.OnRacerRemoved += RemoveRacerPanel;
 		}
 		
-		private void AddRacerPanel(IRacer racer)
+		private void AddRacerPanel(Racer racer)
 		{
 			GameObject instantiated = Instantiate(_RacerPanelPrefab, gameObject.transform);
 			RacerPanel racerPanel = instantiated.GetComponent<RacerPanel>();
@@ -48,13 +48,13 @@ namespace UI
 			_JoiningActionText.SetAsLastSibling();
 		}
 
-		private void RemoveRacer(IRacer racer)
+		private void RemoveRacer(Racer racer)
 		{
 			RemoveRacerPanel(racer);
 			_Lobby.RemoveRacer(racer);
 		}
 		
-		private void RemoveRacerPanel(IRacer racer)
+		private void RemoveRacerPanel(Racer racer)
 		{
 			if (!_panels.TryGetValue(racer, out RacerPanel racerPanel))
 				return;

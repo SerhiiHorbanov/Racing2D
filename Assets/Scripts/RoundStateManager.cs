@@ -18,7 +18,7 @@ public class RoundStateManager : MonoBehaviour
 	
 	[SerializeField] private GameObject _RacerCursorPrefab;
 
-	private readonly Dictionary<IRacer, RacerCursor> _cursors = new();
+	private readonly Dictionary<Racer, RacerCursor> _cursors = new();
 	
 	public GameState _CurrentGameState = GameState.Racing;
 	
@@ -61,7 +61,7 @@ public class RoundStateManager : MonoBehaviour
 			InitializeCursors();
 		}
 
-		foreach ((IRacer racer, RacerCursor cursor) in _cursors)
+		foreach ((Racer racer, RacerCursor cursor) in _cursors)
 		{
 			racer.ConnectRacerCursorControllerTo(cursor);
 			cursor._IsItemPlaced = false;
@@ -71,7 +71,7 @@ public class RoundStateManager : MonoBehaviour
 		
 	private void InitializeCursors()
 	{
-		foreach (IRacer racer in RacersList.Instance.Racers)
+		foreach (Racer racer in RacersList.Instance.Racers)
 		{
 			GameObject cursorGameObject = Instantiate(_RacerCursorPrefab);
 			RacerCursor cursor = cursorGameObject.GetComponent<RacerCursor>();
@@ -83,7 +83,7 @@ public class RoundStateManager : MonoBehaviour
 
 	private void UninitializeItemsPlacingState()
 	{
-		foreach ((IRacer racer, RacerCursor cursor) in _cursors)
+		foreach ((Racer racer, RacerCursor cursor) in _cursors)
 		{
 			racer.DisconnectRacerCursorControllerFromCursor();
 			cursor.gameObject.SetActive(false);

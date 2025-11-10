@@ -4,18 +4,15 @@ using Lobby;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class UserRacer : MonoBehaviour, IRacer
+public class UserRacer : Racer
 {
 	[SerializeField] private GameObject _ControllerPrefab;
 	[SerializeField] private GameObject _CursorControllerPrefab;
 	private PlayerInput _playerInput;
-	private RacerScore _score = new();
+	
 	private PlayerCarController _carController;
 	private PlayerCursorController _cursorController;
 	
-	public RaceCar Car { get; set; }
-	public RacerConfiguration Configuration { get; set; }
-
 	private void Awake()
 	{
 		_playerInput = GetComponent<PlayerInput>();
@@ -29,7 +26,7 @@ public class UserRacer : MonoBehaviour, IRacer
 		_carController.ConnectTo(_playerInput);
 	}
 
-	public void EnableCarController(RaceCar car)
+	public override void EnableCarController(RaceCar car)
 	{
 		if (_carController == null)
 			InitializeCarController();
@@ -38,7 +35,7 @@ public class UserRacer : MonoBehaviour, IRacer
 		_carController.enabled = true;
 	}
 
-	public void DisableCarController()
+	public override void DisableCarController()
 	{
 		if (_carController is null)
 			return;
@@ -47,7 +44,7 @@ public class UserRacer : MonoBehaviour, IRacer
 		_carController.enabled = false;
 	}
 
-	public void ConnectRacerCursorControllerTo(RacerCursor cursor)
+	public override void ConnectRacerCursorControllerTo(RacerCursor cursor)
 	{
 		if (_cursorController is null)
 			InitializeCursorController();
@@ -56,7 +53,7 @@ public class UserRacer : MonoBehaviour, IRacer
 		_cursorController.enabled = true;
 	}
 
-	public void DisconnectRacerCursorControllerFromCursor()
+	public override void DisconnectRacerCursorControllerFromCursor()
 	{
 		_cursorController.DisconnectFromCursor();
 	}
@@ -67,7 +64,4 @@ public class UserRacer : MonoBehaviour, IRacer
 		_cursorController = cursorControllerGameObject.GetComponent<PlayerCursorController>();
 		_cursorController.ConnectToInput(_playerInput);
 	}
-	
-	public RacerScore GetScore()
-		=> _score;
 }
