@@ -11,18 +11,15 @@ public enum GameState
 	MatchEnding,
 }
 
+[RequireComponent(typeof(RacingRoundState))]
 public class RoundStateManager : MonoBehaviour
 {
-	[SerializeField] private GameObject _CarPrefab;
+	private RacingRoundState _racingState;
+	
 	[SerializeField] private GameObject _RacerCursorPrefab;
-	[SerializeField] private Transform _CarSpawnPoint;
-	[SerializeField] private RaceLoop _RaceLoop;
 
-	private readonly Dictionary<RaceCar, IRacer> _carsToRacers = new();
 	private readonly Dictionary<IRacer, RacerCursor> _cursors = new();
 	
-	[SerializeField] private int _LoopsToEndRacingState = 3;
-
 	public GameState _CurrentGameState = GameState.Racing;
 	
 	private void Awake()
@@ -32,8 +29,10 @@ public class RoundStateManager : MonoBehaviour
 			Debug.LogWarning("RacersList is not initialized");
 			return;
 		}
+		_racingState = GetComponent<RacingRoundState>();
 		
-		InitializeRacingState();
+		_racingState.OnStateEnd += ChangeStateFromRacingToPlacingItems;
+		_racingState.InitializeRacingState();
 	}
 
 	private void Update()
@@ -43,7 +42,7 @@ public class RoundStateManager : MonoBehaviour
 	
 	private void ChangeStateFromRacingToPlacingItems()
 	{
-		UninitializeRacingState();
+		_racingState.UninitializeRacingState();
 		_CurrentGameState = GameState.ItemsPlacing;
 		InitializeItemsPlacingState();
 	}
@@ -52,17 +51,7 @@ public class RoundStateManager : MonoBehaviour
 	{
 		UninitializeItemsPlacingState();
 		_CurrentGameState = GameState.Racing;
-		InitializeRacingState();
-	}
-
-	private void InitializeRacingState()
-	{
-		InitializeCars(RacersList.Instance.Racers);
-	}
-
-	private void UninitializeRacingState()
-	{
-		UninitializeCars();
+		_racingState.InitializeRacingState();
 	}
 
 	private void InitializeItemsPlacingState()
@@ -110,60 +99,5 @@ public class RoundStateManager : MonoBehaviour
 		}
 		
 		ChangeStateFromPlacingItemsToRacing();
-	}
-
-	private void UninitializeCars()
-	{
-		foreach ((RaceCar car, IRacer racer) in _carsToRacers)
-		{
-			racer.DisableCarController();
-			racer.DisconnectScoreFromCar();
-			Destroy(car.gameObject);
-		}
-		
-		_carsToRacers.Clear();
-	}
-
-	private void InitializeCars(IEnumerable<IRacer> racers)
-	{
-		foreach (IRacer racer in racers)
-		{
-			GameObject carGameObject = Instantiate(_CarPrefab);
-			RaceCar car = carGameObject.GetComponent<RaceCar>();
-		
-			carGameObject.transform.position = _CarSpawnPoint.position;
-					
-			racer.Car = car;
-			racer.EnableCarController(car);
-			racer.ConnectScoreToCar();
-
-			CheckpointProgressTracker tracker = carGameObject.GetComponent<CheckpointProgressTracker>();
-			tracker.OnFinishedALoop += CarFinishedALoop;
-			
-			_carsToRacers.Add(car, racer);
-		}
-	}
-
-	private void CarFinishedALoop(CheckpointProgressTracker tracker)
-	{
-		RaceCar car = tracker.GetComponent<RaceCar>();
-		
-		if (car is null)
-		{
-			Debug.LogWarning("CarFinishedALoop called on a non-car object");
-			return;
-		}
-		
-		if (!_carsToRacers.TryGetValue(car, out IRacer racer))
-			return;
-
-		RacerScore score = racer.GetScore();
-		score.AddLoop();
-
-		if (tracker._LoopsDone >= _LoopsToEndRacingState)
-		{
-			score.AddWin();
-			ChangeStateFromRacingToPlacingItems();
-		}
 	}
 }

@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 131505964}
   - component: {fileID: 131505965}
+  - component: {fileID: 131505966}
   m_Layer: 0
   m_Name: Game State Manager
   m_TagString: Untagged
@@ -163,12 +164,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3927750b9b34e66a0b38bec58680439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CarPrefab: {fileID: 4453856188272795003, guid: 0031ed78af178f643be7218850a22355, type: 3}
   _RacerCursorPrefab: {fileID: 6460819483725587566, guid: 1219c29a6a24d9e4db44abe76be73949, type: 3}
+  _CurrentGameState: 0
+--- !u!114 &131505966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131505962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d86f87a27564888841b1ee33e1c83c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CarPrefab: {fileID: 4453856188272795003, guid: 0031ed78af178f643be7218850a22355, type: 3}
+  _LoopsToEndRacingState: 2
   _CarSpawnPoint: {fileID: 1924866397}
   _RaceLoop: {fileID: 1652902668}
-  _LoopsToEndRacingState: 1
-  _CurrentGameState: 0
 --- !u!1 &155405054
 GameObject:
   m_ObjectHideFlags: 0
