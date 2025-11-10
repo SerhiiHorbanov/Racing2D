@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Lobby;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum GameState
@@ -12,7 +11,7 @@ public enum GameState
 	MatchEnding,
 }
 
-public class GameStateManager : MonoBehaviour
+public class RoundStateManager : MonoBehaviour
 {
 	[SerializeField] private GameObject _CarPrefab;
 	[SerializeField] private GameObject _RacerCursorPrefab;
