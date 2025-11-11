@@ -91,4 +91,9 @@ public class RaceCar : MonoBehaviour
         
         _rigidbody.AddTorque(steering, ForceMode2D.Force);
     }
+
+    public void ApplyConfiguration(RacerConfiguration racerConfiguration)
+    {
+        GetComponentInChildren<SpriteRenderer>().color = racerConfiguration.Color;
+    }
 }

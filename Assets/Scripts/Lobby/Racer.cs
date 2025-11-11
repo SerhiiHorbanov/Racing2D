@@ -8,7 +8,7 @@ namespace Lobby
 	{
 		[NonSerialized] public RaceCar Car;
 		
-		public RacerConfiguration Configuration;
+		public RacerConfiguration Configuration = new();
 		public readonly RacerScore Score = new();
 
 		private void Awake()

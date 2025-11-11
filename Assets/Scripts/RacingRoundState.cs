@@ -38,6 +38,8 @@ public class RacingRoundState : MonoBehaviour
 			racer.Car = car;
 			racer.EnableCarController(car);
 			racer.ConnectScoreToCar();
+			
+			car.ApplyConfiguration(racer.Configuration);
 
 			CheckpointProgressTracker tracker = carGameObject.GetComponent<CheckpointProgressTracker>();
 			tracker.OnFinishedALoop += CarFinishedALoop;
