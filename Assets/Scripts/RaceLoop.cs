@@ -9,9 +9,9 @@ public class RaceLoop : MonoBehaviour
 	
 	private void Awake()
 	{
-		if (_Checkpoints.Count == 0)
+		if (_Checkpoints.Count < 2)
 		{
-			Debug.LogWarning("No checkpoints assigned");
+			Debug.LogWarning("Not enough checkpoints assigned in RaceLoop");
 			return;
 		}
 
