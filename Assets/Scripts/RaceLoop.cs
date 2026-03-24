@@ -5,10 +5,20 @@ using UnityEngine;
 
 public class RaceLoop : MonoBehaviour
 {
-	[SerializeField] private List<Checkpoint> _Checkpoints;
+	[SerializeField] public List<Checkpoint> _Checkpoints;
+	public static RaceLoop Instance;
 	
 	private void Awake()
 	{
+		if (Instance != null)
+		{
+			Debug.LogWarning("RaceLoop is already initialized");
+			Destroy(this);
+			return;
+		}
+		
+		Instance = this;
+		
 		if (_Checkpoints.Count < 2)
 		{
 			Debug.LogWarning("Not enough checkpoints assigned in RaceLoop");
@@ -32,22 +42,26 @@ public class RaceLoop : MonoBehaviour
 		}
 	}
 
-	private void OnTrackerReachedCheckpoint(CheckpointProgressTracker tracker, int reachedCheckpoint)
+	private void OnTrackerReachedCheckpoint(CheckpointProgressTracker tracker, int reachedCheckpointIdx)
 	{
 		int prevCheckpoint = tracker._CurrentCheckpoint;
-		bool shouldMoveToNewCheckpoint = Math.Abs(prevCheckpoint - reachedCheckpoint) == 1;
+		bool isReachedCheckpointAdjacentToPrevious = Math.Abs(prevCheckpoint - reachedCheckpointIdx) == 1;
+		Checkpoint reachedCheckpoint = _Checkpoints[reachedCheckpointIdx];
 		
-		if (shouldMoveToNewCheckpoint)
+		if (isReachedCheckpointAdjacentToPrevious)
 		{
-			tracker._CurrentCheckpoint = reachedCheckpoint;
+			tracker.SetCheckpoint(reachedCheckpoint);
 			return;
 		}
 		
-		bool finishedALoop = prevCheckpoint == _Checkpoints.Count - 1 & reachedCheckpoint == 0;
+		bool finishedALoop = prevCheckpoint == _Checkpoints.Count - 1 & reachedCheckpointIdx == 0;
 		if (finishedALoop)
 		{
-			tracker._CurrentCheckpoint = 0;
+			tracker.SetCheckpoint(reachedCheckpoint);
 			tracker.InvokeOnFinishedALoop();
 		}
 	}
+	
+	public int NextCheckpointIndex(int currentCheckpoint) 
+		=> (currentCheckpoint + 1) % _Checkpoints.Count;
 }
