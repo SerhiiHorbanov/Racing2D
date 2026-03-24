@@ -5,6 +5,21 @@ namespace Controlling
 {
 	public class RaceCarController : MonoBehaviour
 	{
-		[SerializeField] public RaceCar _Car;
+		private RaceCar _car;
+
+		[SerializeField]
+		public RaceCar _Car
+		{
+			get => _car;
+			set
+			{
+				RaceCar prevCar = _car;
+				_car = value;
+				OnCarSet(prevCar);
+			}
+		}
+
+		public virtual void OnCarSet(RaceCar prevCar)
+		{ }
 	}
 }
